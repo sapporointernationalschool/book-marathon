@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Marathon · Sapporo International School</title>
+    <style>
+      :root {
+        --green-dark: #14532d;
+        --green: #166534;
+        --green-mid: #15803d;
+        --green-light: #22c55e;
+        --green-pale: #dcfce7;
+        --green-mist: #f0fdf4;
+        --gold: #d97706;
+        --silver: #64748b;
+        --bronze: #b45309;
+        --text: #0f172a;
+        --muted: #4b5563;
+        --card: #ffffff;
+        --border: #d1e7d5;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Roboto, system-ui, sans-serif;
+        background: linear-gradient(160deg, #f0fdf4 0%, #dcfce7 100%);
+        background-attachment: fixed;
+        color: var(--text);
+        padding: 1.5rem;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .app {
+        max-width: 1100px;
+        width: 100%;
+      }
+
+      /* ===== HEADER ===== */
+      header {
+        background: linear-gradient(
+          135deg,
+          var(--green-dark) 0%,
+          var(--green) 100%
+        );
+        border-radius: 28px;
+        padding: 2rem 2.5rem;
+        color: white;
+        box-shadow: 0 15px 35px -10px rgba(20, 83, 45, 0.4);
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(34, 197, 94, 0.35) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+      }
+
+      header .school {
+        font-size: 0.85rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #86efac;
+        margin-bottom: 0.4rem;
+      }
+
+      header h1 {
+        font-size: 2.4rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        position: relative;
+      }
+
+      header h1 .emoji {
+        font-size: 2.2rem;
+      }
+
+      header p {
+        margin-top: 0.6rem;
+        color: #bbf7d0;
+        font-size: 1rem;
+        position: relative;
+      }
+
+      /* ===== TABS ===== */
+      .nav-tabs {
+        display: flex;
+        gap: 0.6rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .tab-btn {
+        background: white;
+        border: 2px solid var(--border);
+        padding: 0.75rem 1.7rem;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        color: var(--green-dark);
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+
+      .tab-btn:hover {
+        background: var(--green-mist);
+        border-color: var(--green-light);
+      }
+
+      .tab-btn.active {
+        background: var(--green);
+        color: white;
+        border-color: var(--green-dark);
+        box-shadow: 0 8px 20px -6px rgba(20, 83, 45, 0.5);
+      }
+
+      /* ===== PAGES ===== */
+      .page {
+        display: none;
+        animation: fade 0.25s ease;
+      }
+      .page.active {
+        display: block;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 28px;
+        padding: 2rem 2rem 2.5rem;
+        box-shadow: 0 12px 30px -10px rgba(20, 83, 45, 0.15);
+        border: 1px solid var(--border);
+      }
+
+      .card h2 {
+        font-weight: 700;
+        color: var(--green-dark);
+        margin-bottom: 0.3rem;
+        font-size: 1.5rem;
+      }
+
+      .card .subtitle {
+        color: var(--muted);
+        margin-bottom: 1.8rem;
+      }
+
+      /* ===== FORM ===== */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem 2rem;
+      }
+
+      @media (max-width: 650px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        header h1 {
+          font-size: 1.7rem;
+        }
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .field label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        color: var(--green-dark);
+        text-transform: uppercase;
+      }
+
+      .field select,
+      .field input[type="text"],
+      .field input[type="number"] {
+        background: var(--green-mist);
+        border: 1.5px solid var(--border);
+        border-radius: 16px;
+        padding: 0.9rem 1.2rem;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: 0.2s;
+        outline: none;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23166534' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 1.2rem center;
+        background-size: 16px;
+      }
+
+      .field input[type="text"],
+      .field input[type="number"] {
+        background-image: none;
+      }
+
+      .field select {
+        cursor: pointer;
+      }
+
+      .field select:focus,
+      .field input:focus {
+        border-color: var(--green-light);
+        background: white;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+      }
+
+      /* ===== LANGUAGES ===== */
+      .lang-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 0.4rem;
+      }
+
+      .lang-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--green-mist);
+        padding: 0.5rem 1rem;
+        border-radius: 40px;
+        border: 1.5px solid var(--border);
+        cursor: pointer;
+        transition: 0.15s;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .lang-item:hover {
+        background: #e6f9ec;
+      }
+
+      .lang-item input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--green);
+        cursor: pointer;
+      }
+
+      .lang-item.checked {
+        background: var(--green-pale);
+        border-color: var(--green-light);
+      }
+
+      /* ===== BUTTONS ===== */
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--green-mid),
+          var(--green-dark)
+        );
+        border: none;
+        color: white;
+        font-weight: 600;
+        font-size: 1.05rem;
+        padding: 0.95rem 2.2rem;
+        border-radius: 40px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: 0.2s;
+        margin-top: 1.5rem;
+        box-shadow: 0 10px 22px -8px rgba(22, 101, 52, 0.5);
+        font-family: inherit;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 26px -8px rgba(22, 101, 52, 0.6);
+      }
+
+      .btn-primary:active {
+        transform: translateY(0);
+      }
+
+      .btn-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* ===== MESSAGES ===== */
+      .message {
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        padding: 0.8rem 1.3rem;
+        border-radius: 14px;
+        display: inline-block;
+        font-weight: 500;
+      }
+
+      .message.success {
+        background: var(--green-pale);
+        color: var(--green-dark);
+      }
+      .message.error {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      .message.info {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+
+      /* ===== RECENT ENTRIES ===== */
+      .entries-list {
+        margin-top: 2rem;
+        border-top: 2px dashed var(--border);
+        padding-top: 1.5rem;
+      }
+
+      .entries-list h3 {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--green-dark);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .entry-item {
+        background: var(--green-mist);
+        border-radius: 16px;
+        padding: 0.9rem 1.2rem;
+        margin-bottom: 0.6rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 5px solid var(--green-light);
+        font-size: 0.95rem;
+        gap: 0.5rem;
+      }
+
+      .entry-item strong {
+        color: var(--green-dark);
+      }
+
+      .badge {
+        background: var(--green-pale);
+        border-radius: 40px;
+        padding: 0.25rem 1rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--green-dark);
+        white-space: nowrap;
+      }
+
+      .lang-badge {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 40px;
+        padding: 0.15rem 0.8rem;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--green-dark);
+        margin-left: 0.3rem;
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      /* ===== LEADERBOARD ===== */
+      .leaderboard-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1.2rem;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px -6px rgba(20, 83, 45, 0.12);
+      }
+
+      .leaderboard-table th {
+        background: var(--green-dark);
+        color: white;
+        font-weight: 600;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        padding: 1rem 1.2rem;
+        text-align: left;
+        text-transform: uppercase;
+      }
+
+      .leaderboard-table td {
+        background: white;
+        padding: 1rem 1.2rem;
+        border-bottom: 1px solid var(--green-mist);
+        font-size: 0.95rem;
+        vertical-align: middle;
+      }
+
+      .leaderboard-table tr:last-child td {
+        border-bottom: none;
+      }
+      .leaderboard-table tr:hover td {
+        background: var(--green-mist);
+      }
+
+      .rank-1 td {
+        background: #fef9c3 !important;
+        font-weight: 700;
+      }
+      .rank-2 td {
+        background: #f1f5f9 !important;
+      }
+      .rank-3 td {
+        background: #fef3c7 !important;
+      }
+
+      .medal {
+        font-size: 1.2rem;
+        margin-right: 6px;
+      }
+
+      .empty-message {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: var(--muted);
+        font-style: italic;
+        background: var(--green-mist);
+        border-radius: 20px;
+        margin-top: 1.5rem;
+      }
+
+      .flex-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .clear-btn {
+        background: transparent;
+        border: 1.5px solid #fca5a5;
+        color: #dc2626;
+        padding: 0.5rem 1.3rem;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+        font-family: inherit;
+      }
+
+      .clear-btn:hover {
+        background: #fee2e2;
+      }
+
+      /* ===== FOOTER / STATUS ===== */
+      .footer-note {
+        margin-top: 2rem;
+        font-size: 0.8rem;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .db-status {
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #f59e0b;
+        margin-right: 6px;
+        animation: pulse 1.5s infinite;
+        vertical-align: middle;
+      }
+
+      .db-status.online {
+        background: var(--green-light);
+        animation: none;
+      }
+      .db-status.error {
+        background: #ef4444;
+        animation: none;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .loading {
+        text-align: center;
+        padding: 3rem;
+        color: var(--muted);
+        font-style: italic;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid var(--green-pale);
+        border-top-color: var(--green);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+
+    <!-- Turso (SQLite in the cloud) client -->
+    <script type="module">
+      import { createClient } from "https://esm.sh/@libsql/client@0.6.0/web";
+      window.__createTursoClient = createClient;
+      window.dispatchEvent(new Event("turso-ready"));
+    </script>
+  </head>
+  <body>
+    <div class="app">
+      <!-- ===== HEADER ===== -->
+      <header>
+        <div class="school">Sapporo International School</div>
+        <h1><span class="emoji">📖</span> Book Marathon</h1>
+        <p>Read. Track. Compete. Together.</p>
+      </header>
+
+      <!-- ===== NAV TABS ===== -->
+      <div class="nav-tabs">
+        <button class="tab-btn active" data-page="registerPage">
+          📝 Register
+        </button>
+        <button class="tab-btn" data-page="leaderboardPage">
+          🏆 Leaderboard
+        </button>
+      </div>
+
+      <!-- ===== REGISTER PAGE ===== -->
+      <div id="registerPage" class="page active">
+        <div class="card">
+          <h2>Join the Reading Challenge</h2>
+          <p class="subtitle">
+            Choose your name, add your book, and check the language(s).
+          </p>
+
+          <form id="registrationForm">
+            <div class="form-grid">
+              <div class="field">
+                <label for="studentSelect">Student</label>
+                <select id="studentSelect" required>
+                  <option value="">— Select your name —</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="bookTitle">Book Title</label>
+                <input
+                  type="text"
+                  id="bookTitle"
+                  placeholder="e.g. The Hobbit"
+                  required
+                  maxlength="120"
+                />
+              </div>
+              <div class="field">
+                <label for="readingTime">Reading Time (minutes)</label>
+                <input
+                  type="number"
+                  id="readingTime"
+                  placeholder="e.g. 120"
+                  min="1"
+                  max="10000"
+                  step="1"
+                  required
+                />
+              </div>
+              <div class="field">
+                <label>Language(s)</label>
+                <div class="lang-group" id="langGroup">
+                  <label class="lang-item"
+                    ><input type="checkbox" value="Japanese" /> Japanese</label
+                  >
+                  <label class="lang-item"
+                    ><input type="checkbox" value="English" /> English</label
+                  >
+                  <label class="lang-item"
+                    ><input type="checkbox" value="Arabic" /> Arabic</label
+                  >
+                  <label class="lang-item"
+                    ><input type="checkbox" value="Indonesia" />
+                    Indonesia</label
+                  >
+                  <label class="lang-item"
+                    ><input type="checkbox" value="Bangali" /> Bangali</label
+                  >
+                  <label class="lang-item"
+                    ><input type="checkbox" value="Urdu" /> Urdu</label
+                  >
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary" id="submitBtn">
+              <span>➕</span> Register Entry
+            </button>
+          </form>
+
+          <div id="formMessage" class="message" style="display: none"></div>
+
+          <div class="entries-list">
+            <h3><span>🕒</span> Recent Entries</h3>
+            <div id="recentEntriesContainer">
+              <div class="loading">
+                <span class="spinner"></span>Connecting to database...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== LEADERBOARD PAGE ===== -->
+      <div id="leaderboardPage" class="page">
+        <div class="card">
+          <div class="flex-between">
+            <h2>🏅 Marathon Leaderboard</h2>
+            <button
+              id="refreshBtn"
+              class="clear-btn"
+              style="border-color: #86efac; color: var(--green-dark)"
+            >
+              🔄 Refresh
+            </button>
+          </div>
+          <p class="subtitle">All students, ranked by total reading time.</p>
+
+          <div id="leaderboardContainer">
+            <div class="loading">
+              <span class="spinner"></span>Loading leaderboard...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        <span class="db-status" id="dbStatus"></span>
+        <span id="dbStatusText">Connecting to cloud SQLite...</span>
+      </div>
+    </div>
+
+    <script>
+      // ============================================================
+      // 🔧 CONFIGURATION — PASTE YOUR TURSO CREDENTIALS HERE
+      // ============================================================
+      const TURSO_URL =
+        "libsql://book-marathon-sapporo-zulisensei.aws-ap-northeast-1.turso.io"; // ← change
+      const TURSO_TOKEN =
+        "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3OTE0NDQwNjksImlkIjoiMDFhMTFhNjItMDgwMS03NjkzLWJjOGItNDNiYjdhZjgwMGZmIiwia2lkIjoiSXpjVTJUamk4emtRRldCaVFrQy1fOFFGOXdQQ1o2Vmx2dDN6VnZtbDVjTSIsInJpZCI6IjY0MTZkZTc5LTUyNGItNGUzZS05ZGVjLTIxNTk5M2ZkYzI4ZiJ9.rBmhRT7GCJwXYA20z8xgEYF1EwR2jFUtw7HSNjd4_c1nlF67gnyxT9y2R4r5NJNokwImSnhHlCF7lKqK85lKCA"; // ← change
+      // ============================================================
+
+      // ---------- STUDENT LIST ----------
+      const STUDENT_LIST = [
+        "Maamon Razzaq",
+        "Salman Hasan",
+        "Laiba Mustaq",
+        "Login Shehata",
+        "Abdullah Kaita",
+        "AHMAD MUHAMMAD",
+        "Makoto Kuribayashi",
+        "Saadia Kaita",
+        "Ahmed Shehata",
+        "Sauda Hasan",
+        "Noreen Razzaq",
+        "Lena Shehata",
+        "Kareem Sobhy",
+        "Samaira Wisal",
+        "Anas Shalaby",
+        "NOOR BISMA",
+        "Salaheddin Elmerzouki",
+        "HASSAN ALI",
+        "Shofian Safa Manha",
+        "Abdullah Ismail",
+        "Awab Aamir",
+        "Zainab Elmerzouki",
+        "AHMAD HUSSAIN",
+        "Junainah Noursaba",
+        "Dareen Sobhy",
+        "Abdoul Aziz BAH",
+        "Muhammad Amir BAH",
+        "Minoru Kuribayashi",
+        "Subaru Fukuda",
+        "Fatir Zulfikar",
+        "Ryuto Nitta",
+        "Rui Muso",
+        "Fredrick Eliakim",
+        "Hajra",
+        "Yusuf Ismail",
+        "SYAHLA HAFLAMIRA AYANA",
+        "Shofian Rayyan",
+        "Romasa",
+        "Hasan Abdurrahman Arshad",
+        "Azeddin Elmerzouki",
+        "Aisel Shalaby",
+        "Mayameen",
+        "Zinab Kaita",
+        "Suhaila Sadik",
+        "Diallo Abdoulay",
+        "Leena Matsunaga",
+        "Hana Shehata",
+        "Raisa Khadiza",
+        "Elizabeth Greenaway",
+        "Ahmed Shouman",
+        "Musaib Mojahid",
+        "ROHAN AKKOLI POTTAMMAL",
+        "Fulan bin Fulan",
+      ];
+
+      // ---------- DOM ----------
+      const registerPage = document.getElementById("registerPage");
+      const leaderboardPage = document.getElementById("leaderboardPage");
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const form = document.getElementById("registrationForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const studentSelect = document.getElementById("studentSelect");
+      const bookInput = document.getElementById("bookTitle");
+      const timeInput = document.getElementById("readingTime");
+      const langGroup = document.getElementById("langGroup");
+      const formMessage = document.getElementById("formMessage");
+      const recentEntriesContainer = document.getElementById(
+        "recentEntriesContainer",
+      );
+      const leaderboardContainer = document.getElementById(
+        "leaderboardContainer",
+      );
+      const refreshBtn = document.getElementById("refreshBtn");
+      const dbStatus = document.getElementById("dbStatus");
+      const dbStatusText = document.getElementById("dbStatusText");
+
+      // ---------- TURSO CLIENT ----------
+      let db = null;
+
+      async function getClient() {
+        if (db) return db;
+        // wait until the ESM module has loaded
+        if (!window.__createTursoClient) {
+          await new Promise((res) =>
+            window.addEventListener("turso-ready", res, { once: true }),
+          );
+        }
+        db = window.__createTursoClient({
+          url: TURSO_URL,
+          authToken: TURSO_TOKEN,
+        });
+        return db;
+      }
+
+      // ---------- POPULATE STUDENTS ----------
+      function populateStudentList() {
+        studentSelect.innerHTML =
+          '<option value="">— Select your name —</option>';
+        STUDENT_LIST.slice()
+          .sort((a, b) =>
+            a.localeCompare(b, undefined, { sensitivity: "base" }),
+          )
+          .forEach((name) => {
+            const opt = document.createElement("option");
+            opt.value = name;
+            opt.textContent = name;
+            studentSelect.appendChild(opt);
+          });
+      }
+
+      // ---------- LANGUAGE CHECKBOX STYLING ----------
+      function setupLangCheckboxes() {
+        langGroup.querySelectorAll(".lang-item").forEach((item) => {
+          const cb = item.querySelector('input[type="checkbox"]');
+          if (cb.checked) item.classList.add("checked");
+          cb.addEventListener("change", () => {
+            item.classList.toggle("checked", cb.checked);
+          });
+        });
+      }
+
+      // ---------- HELPERS ----------
+      function escapeHtml(t) {
+        if (!t) return "";
+        const d = document.createElement("div");
+        d.textContent = t;
+        return d.innerHTML;
+      }
+
+      function renderLanguageBadges(langString) {
+        if (!langString) return "";
+        return langString
+          .split(",")
+          .map((s) => s.trim())
+          .map((l) => `<span class="lang-badge">${escapeHtml(l)}</span>`)
+          .join(" ");
+      }
+
+      function setStatus(state, text) {
+        dbStatus.className = "db-status" + (state ? " " + state : "");
+        dbStatusText.textContent = text;
+      }
+
+      function showMessage(text, type = "info") {
+        formMessage.textContent = text;
+        formMessage.className = "message " + type;
+        formMessage.style.display = "inline-block";
+        if (type === "success") {
+          setTimeout(() => {
+            formMessage.style.display = "none";
+          }, 4000);
+        }
+      }
+
+      // ---------- DB QUERIES ----------
+      async function fetchRecent(limit = 5) {
+        const client = await getClient();
+        const rs = await client.execute({
+          sql: "SELECT * FROM entries ORDER BY id DESC LIMIT ?",
+          args: [limit],
+        });
+        return rs.rows;
+      }
+
+      async function fetchLeaderboard() {
+        const client = await getClient();
+        const rs = await client.execute(
+          "SELECT * FROM entries ORDER BY reading_time DESC, id ASC",
+        );
+        return rs.rows;
+      }
+
+      async function insertEntry(student, book, time, languages) {
+        const client = await getClient();
+        await client.execute({
+          sql: `INSERT INTO entries (student_name, book_title, reading_time, languages)
+            VALUES (?, ?, ?, ?)`,
+          args: [student, book, time, languages.join(", ")],
+        });
+      }
+
+      // ---------- RENDER: RECENT ----------
+      async function renderRecentEntries() {
+        try {
+          const rows = await fetchRecent(5);
+          if (!rows.length) {
+            recentEntriesContainer.innerHTML =
+              '<div class="empty-message">No entries yet. Be the first! 🌱</div>';
+            return;
+          }
+          recentEntriesContainer.innerHTML = rows
+            .map(
+              (r) => `
+        <div class="entry-item">
+          <div>
+            <strong>${escapeHtml(r.student_name)}</strong> — "${escapeHtml(r.book_title)}"
+            <div style="margin-top:4px;">${renderLanguageBadges(r.languages)}</div>
+          </div>
+          <div><span class="badge">${r.reading_time} min</span></div>
+        </div>
+      `,
+            )
+            .join("");
+        } catch (e) {
+          console.error(e);
+          recentEntriesContainer.innerHTML =
+            '<div class="empty-message">⚠️ Could not load recent entries.</div>';
+        }
+      }
+
+      // ---------- RENDER: LEADERBOARD ----------
+      async function renderLeaderboard() {
+        try {
+          const rows = await fetchLeaderboard();
+          if (!rows.length) {
+            leaderboardContainer.innerHTML =
+              '<div class="empty-message">📭 No entries yet. Be the first to register!</div>';
+            return;
+          }
+
+          let html = `
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th><th>Student</th><th>Book</th>
+              <th>Languages</th><th>Reading Time</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+          rows.forEach((r, i) => {
+            const rank = i + 1;
+            let rankDisplay = rank,
+              rowClass = "";
+            if (rank === 1) {
+              rankDisplay = '<span class="medal">🥇</span>1';
+              rowClass = "rank-1";
+            } else if (rank === 2) {
+              rankDisplay = '<span class="medal">🥈</span>2';
+              rowClass = "rank-2";
+            } else if (rank === 3) {
+              rankDisplay = '<span class="medal">🥉</span>3';
+              rowClass = "rank-3";
+            }
+
+            html += `
+          <tr class="${rowClass}">
+            <td style="font-weight:600;">${rankDisplay}</td>
+            <td>${escapeHtml(r.student_name)}</td>
+            <td>"${escapeHtml(r.book_title)}"</td>
+            <td>${renderLanguageBadges(r.languages) || "—"}</td>
+            <td><strong>${r.reading_time}</strong> min</td>
+          </tr>
+        `;
+          });
+
+          html += "</tbody></table>";
+          leaderboardContainer.innerHTML = html;
+        } catch (e) {
+          console.error(e);
+          leaderboardContainer.innerHTML =
+            '<div class="empty-message">⚠️ Could not load leaderboard.</div>';
+        }
+      }
+
+      // ---------- TAB SWITCHING ----------
+      function setActivePage(id) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        tabBtns.forEach((b) =>
+          b.classList.toggle("active", b.dataset.page === id),
+        );
+
+        if (id === "leaderboardPage") renderLeaderboard();
+        else renderRecentEntries();
+      }
+
+      tabBtns.forEach((b) =>
+        b.addEventListener("click", () => setActivePage(b.dataset.page)),
+      );
+      refreshBtn.addEventListener("click", renderLeaderboard);
+
+      // ---------- FORM SUBMIT ----------
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const student = studentSelect.value;
+        const book = bookInput.value.trim();
+        const timeRaw = timeInput.value.trim();
+        const langs = [
+          ...langGroup.querySelectorAll('input[type="checkbox"]:checked'),
+        ].map((cb) => cb.value);
+
+        if (!student)
+          return showMessage("⚠️ Please select your name.", "error");
+        if (!book)
+          return showMessage("⚠️ Please enter the book title.", "error");
+        if (!timeRaw)
+          return showMessage("⚠️ Please enter reading time.", "error");
+
+        const time = Number(timeRaw);
+        if (!Number.isInteger(time) || time <= 0)
+          return showMessage(
+            "⚠️ Reading time must be a positive whole number.",
+            "error",
+          );
+        if (!langs.length)
+          return showMessage(
+            "⚠️ Please select at least one language.",
+            "error",
+          );
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML =
+          '<span class="spinner" style="border-color:rgba(255,255,255,0.4);border-top-color:white;"></span> Saving...';
+
+        try {
+          await insertEntry(student, book, time, langs);
+          showMessage(
+            `✅ "${book}" registered for ${student} (${time} min).`,
+            "success",
+          );
+          form.reset();
+          langGroup
+            .querySelectorAll(".lang-item")
+            .forEach((i) => i.classList.remove("checked"));
+          await renderRecentEntries();
+        } catch (err) {
+          console.error(err);
+          showMessage(
+            "❌ Failed to save. Check your connection and try again.",
+            "error",
+          );
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = "<span>➕</span> Register Entry";
+        }
+      });
+
+      // ---------- INIT ----------
+      async function init() {
+        populateStudentList();
+        setupLangCheckboxes();
+
+        try {
+          await getClient();
+          setStatus(
+            "online",
+            "Connected to cloud SQLite · shared with all students",
+          );
+          await renderRecentEntries();
+          await renderLeaderboard();
+        } catch (e) {
+          console.error(e);
+          setStatus(
+            "error",
+            "⚠️ Could not connect to database. Check Turso credentials.",
+          );
+          recentEntriesContainer.innerHTML =
+            '<div class="empty-message">⚠️ Database offline. See status below.</div>';
+          leaderboardContainer.innerHTML =
+            '<div class="empty-message">⚠️ Database offline. See status below.</div>';
+        }
+      }
+
+      init();
+    </script>
+  </body>
+</html>
